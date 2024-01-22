@@ -1,5 +1,7 @@
 <?php
-
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 
 ?>
 
@@ -16,6 +18,21 @@
     <title>Document</title>
 </head>
 <body>
-
+    <main class="container-flux">
+        <div class="row text-center">
+            <div class="col-2">
+                <h2>Hotel Carballo</h1>
+            </div>
+            <div class="col-4">
+                <a href="">Reservar habitacion</a>
+            </div>
+            <div class="col-4">
+                <a href="">Ver reservas</a>
+            </div>
+            <div class="col-2">
+                <h3>Contactate con nosotros</h3>
+            </div>
+        </div>
+    </main>
 </body>
 </html>
