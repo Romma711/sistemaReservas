@@ -33,7 +33,7 @@ error_reporting(E_ALL);
         </nav>
         <div class="text-center pt-5 mt-5">
             <h1 class="py-5">Bienvenidos a la web de reservas del Hotel Carballo</h1>
-            <p class="py-1">Podes reservar tu sitio desde ya aprentando aca</p>
+            <p class="py-1">Podes reservar tu habitacion desde ya, aprentando aca abajo</p>
             <a href="reservas.php" class="my-2 fs-5 btn btn-primary">Reserva Ya!</a>
         </div>
     </main>

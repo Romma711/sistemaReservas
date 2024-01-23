@@ -100,8 +100,8 @@ if ($_POST) {
             <div class="col-6 row">
                 <?php foreach ($aHabitaciones as $habitacion) : ?>
                     <div class="card border border-primary m-2 col-3">
-                        <p>Habitacion: <?php echo $habitacion["numero"]; ?></p>
-                        <p>Ambientes: <?php echo $habitacion["ambientes"]; ?></p>
+                        <h4 class="card-title m-2">Habitacion: <?php echo $habitacion["numero"]; ?></h4>
+                        <h5 class="card-subtitle m-2">Ambientes: <?php echo $habitacion["ambientes"]; ?></h5>
                     </div>
                 <?php endforeach ?>
             </div>

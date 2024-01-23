@@ -43,7 +43,7 @@ usort($aReservas, "ordenarFechas");
             </div>
         </nav>
 
-        <div class="row mr-3 justify-center" style="width: 100%; height: 100%">
+        <div class="row justify-center" style="width: 100%; height: 100%">
             <?php foreach ($aReservas as $reserva) : ?>
                 <div class="card border border-primary col-3 m-2">
                     <div class="card-body">
