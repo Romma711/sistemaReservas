@@ -1,0 +1,1 @@
+[{"numero":"1","ambientes":"2"},{"numero":"2","ambientes":"1"},{"numero":"3","ambientes":"2"},{"numero":"4","ambientes":"3"},{"numero":"5","ambientes":"1"},{"numero":"6","ambientes":"2"},{"numero":"7","ambientes":"2"}]
