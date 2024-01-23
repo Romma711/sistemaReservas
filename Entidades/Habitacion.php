@@ -5,8 +5,6 @@
         private $ambientes;
 
         public function __construct() {
-            $this->numero = 1;
-            $this->ambientes = 2;
         }
 
         public function cargarHabitaciones($array){

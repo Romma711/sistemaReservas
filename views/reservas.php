@@ -7,32 +7,38 @@ include_once "../entidades/Reserva.php";
 include_once "../entidades/Habitacion.php";
 
 $habitacion = new Habitacion;
+$aHabitaciones = array();
 $aHabitaciones = $habitacion->cargarHabitaciones($aHabitaciones);
 
 $reserva = new Reserva;
+$aReservas = array();
 $aReservas = $reserva->obtenerReservas(($aReservas));
-if($_POST){
+if ($_POST) {
     $nombre = $_POST["txtName"];
     $dni = $_POST["txtDni"];
     $numeroHabitacion = $_POST["lstNumber"];
     $checkIn = $_POST["dtCheckIn"];
     $checkOut = $_POST["dtCheckOut"];
 
-    if($reserva->verificarReserva($aReservas,$checkIn,$checkOut,$numeroHabitacion)){
-        $aReservas[] = array("nombre" => $nombre,
-        "dni" =>$dni,
-        "numeroHabitacion"=>$numeroHabitacion,
-        "checkIn"=> $checkIn,
-        "checkOut"=> $checkOut
+    if ($checkIn > $checkOut) {
+        $msg = "Fechas invalidas, por favor vuelva a intentar";
+    } else {
+        if ($reserva->verificarReserva($aReservas, $checkIn, $checkOut, $numeroHabitacion) == true) {
+            $aReservas[] = array(
+                "nombre" => $nombre,
+                "dni" => $dni,
+                "numeroHabitacion" => $numeroHabitacion,
+                "checkIn" => $checkIn,
+                "checkOut" => $checkOut
 
-    );
-    }else{
-     $msg ="La habitacion ya esta reservada para esas fechas, por favor pruebe otra fecha";
+            );
+        } else {
+            $msg = "La habitacion ya esta reservada para esas fechas, por favor pruebe otra fecha";
+        }
+        $strJson = json_encode($aReservas);
+
+        file_put_contents("../Files/reservas.txt", $strJson);
     }
-    
-    $strJson = json_encode($aReservas);
-
-    file_put_contents("../Files/reservas.txt",$strJson);
 }
 
 
@@ -49,50 +55,56 @@ if($_POST){
     <title>Document</title>
 </head>
 
-<body>
+<body class="hero-body">
     <main class="container-fluid">
-        <nav class="row text-center nav-div py-3 px-2">
-            <div class="col-3">
-                <h2>Hotel Carballo</h1>
+        <nav class="row text-start nav-div py-3 px-2">
+            <div class="col-4">
+                <a href="index.php">
+                    <h2>Hotel Carballo</h1>
+                </a>
             </div>
-            <div class="col-3">
+            <div class="col-4">
                 <a href="reservas.php">Reservar habitacion</a>
             </div>
-            <div class="col-3">
+            <div class="col-4">
                 <a href="listar.php">Ver reservas</a>
-            </div>
-            <div class="col-3">
-                <a href="contactanos.php">Contactate con nosotros</a>
             </div>
         </nav>
 
         <div class="row col-12">
-            <div class="col-6">
-                <form class="form-control" action="" method="post">
-                    <div class="col-12 from-group">
-                        <input type="text" id="txtName" name="txtName" placeholder="Nombre y apellido">
-                        <input type="text" id="txtDni" name="txtDni" placeholder="Numero de documento">
-                        <label for="lstNumber">Numero de habitacion</label>
-                        <select name="lstNumber" id="lstNumber">
+            <div class="col-6 mt-2 pb-3 hero-form">
+                <?php if (isset($msg) && $msg != "") : ?>
+                    <div class="alert alert-danger" role="alert">
+                        <?php echo $msg; ?>
+                    </div>
+                <?php endif; ?>
+                <form class="form-control border border-primary pb-3" action="" method="post">
+                    <div class="col-12">
+                        <input type="text" id="txtName" name="txtName" placeholder="Nombre y apellido" class="col-12 my-4 border border-primary form-control" required>
+                        <input type="text" id="txtDni" name="txtDni" placeholder="Numero de documento" class="col-12 my-4 border border-primary form-control" required>
+                        <label for="lstNumber" class="col-12">Numero de habitacion</label>
+                        <select name="lstNumber" id="lstNumber" class="col-12 mt-2 mb-3 border border-primary form-control" required>
                             <option value="" disabled selected>Seleccionar</option>
-                            <?php foreach ($aHabitaciones as $habitacion): ?>
-                                <option value="<?php echo $habitacion["numero"]; ?>">Numero de habitacion: <?php echo $habitacion["numero"]; ?></option>
+                            <?php foreach ($aHabitaciones as $habitacion) : ?>
+                                <option value="<?php echo $habitacion["numero"]; ?>">Habitacion <?php echo $habitacion["numero"]; ?></option>
                             <?php endforeach ?>
                         </select>
-                        <label for="dtCheckIn">Fecha de entrada:</label>
-                        <input type="date" id="dtCheckIn" name="dtCheckIn">
-                        <label for="dtCheckOut">Fecha de salida:</label>
-                        <input type="date" id="dtCheckOut" name="dtCheckOut">
+                        <label for="dtCheckIn" class="col-12 mt-1">Fecha de entrada:</label>
+                        <input type="date" id="dtCheckIn" name="dtCheckIn" class="col-12 mt-2 mb-3 border border-primary form-control" required>
+                        <label for="dtCheckOut" class="col-12 mt-1">Fecha de salida:</label>
+                        <input type="date" id="dtCheckOut" name="dtCheckOut" class="col-12 mt-2 mb-3 border border-primary form-control" required>
                     </div>
                     <button type="submit" class="btn btn-primary" id="btnReservar" name="btnReservar">Reservar</button>
                 </form>
             </div>
-            <?php foreach ($aHabitaciones as $habitacion): ?>
-            <div class="card col-3">
-                <h4>Numero de habitacion: <?php echo $habitacion["numero"]; ?></h4>
-                <h4>Cantidade de ambientes: <?php echo $habitacion["ambientes"]; ?></h4>
+            <div class="col-6 row">
+                <?php foreach ($aHabitaciones as $habitacion) : ?>
+                    <div class="card border border-primary m-2 col-3">
+                        <p>Habitacion: <?php echo $habitacion["numero"]; ?></p>
+                        <p>Ambientes: <?php echo $habitacion["ambientes"]; ?></p>
+                    </div>
+                <?php endforeach ?>
             </div>
-            <?php endforeach ?>
         </div>
     </main>
 </body>
