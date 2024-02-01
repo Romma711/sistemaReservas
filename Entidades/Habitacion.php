@@ -1,20 +1,24 @@
 <?php 
     class Habitacion{
 
-        private $numero;
+        private $idHabitacion;
         private $ambientes;
+        private $precio_noche;
+        private $piso;
 
         public function __construct() {
         }
 
-        public function cargarHabitaciones($array){
-            if (file_exists("../Files/habitaciones.txt")){
-                $strJson = file_get_contents("../Files/habitaciones.txt");
-                $array = json_decode($strJson, true);
-                return $array;
-            }else{
-                echo "error al leer el archivo";
-            }
-        }
+       //GETTERS Y SETTERS
+       public function __get($atributo)
+       {
+           return $this->$atributo;
+       }
+
+       public function __set($atributo, $valor)
+       {
+           $this->$atributo = $valor;
+           return $this;
+       }
     }
 ?>

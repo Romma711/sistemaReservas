@@ -5,41 +5,9 @@ error_reporting(E_ALL);
 
 include_once "../entidades/Reserva.php";
 include_once "../entidades/Habitacion.php";
+include_once "../entidades/Cliente.php";
 
-$habitacion = new Habitacion;
-$aHabitaciones = array();
-$aHabitaciones = $habitacion->cargarHabitaciones($aHabitaciones);
 
-$reserva = new Reserva;
-$aReservas = array();
-$aReservas = $reserva->obtenerReservas(($aReservas));
-if ($_POST) {
-    $nombre = $_POST["txtName"];
-    $dni = $_POST["txtDni"];
-    $numeroHabitacion = $_POST["lstNumber"];
-    $checkIn = $_POST["dtCheckIn"];
-    $checkOut = $_POST["dtCheckOut"];
-
-    if ($checkIn > $checkOut) {
-        $msg = "Fechas invalidas, por favor vuelva a intentar";
-    } else {
-        if ($reserva->verificarReserva($aReservas, $checkIn, $checkOut, $numeroHabitacion) == true) {
-            $aReservas[] = array(
-                "nombre" => $nombre,
-                "dni" => $dni,
-                "numeroHabitacion" => $numeroHabitacion,
-                "checkIn" => $checkIn,
-                "checkOut" => $checkOut
-
-            );
-        } else {
-            $msg = "La habitacion ya esta reservada para esas fechas, por favor pruebe otra fecha";
-        }
-        $strJson = json_encode($aReservas);
-
-        file_put_contents("../Files/reservas.txt", $strJson);
-    }
-}
 
 
 ?>
